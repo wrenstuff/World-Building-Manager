@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Race</title>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <h2>Create new world</h2>
+        <form action="{{ url_for('create_race') }}" method="POST">
+            <label for="world_id">World ID</label>
+            <input type="text" id="world_id" name="world_id" required>
+            <label for="race_name">Race Name</label>
+            <input type="text" id="world_name" name="race_name" required>
+            <label for="race_description">Description</label>
+            <textarea id="race_description" name="race_description" required></textarea>
+            <label for="race_traits">Traits</label>
+            <textarea name="race_traits" id="race_traits"></textarea>
+            <label for="race_notes">Notes</label>
+            <textarea id="race_notes" name="race_notes"></textarea>
+            <button type="submit">Create Race</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
