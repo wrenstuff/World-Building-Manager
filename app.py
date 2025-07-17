@@ -30,8 +30,8 @@ def DB_Status():
                            settlements=settlements, 
                            worlds=worlds)
 
-# Routes for creating new entries
-# Put new entries in the 'create' folder
+# Routes for creating and deleting entries
+# Put new entries templates in the 'create' folder
 # And enter the routes alphabetically
 
 # Events
@@ -57,6 +57,15 @@ def create_event():
         return redirect(url_for('DB_Status'))
     return render_template('create/create-event.html')
 
+@app.route('/delete-event/<int:event_id>', methods=['GET','POST'])
+def delete_event(event_id):
+    event = Events.query.get(event_id)
+    if event:
+        db.session.delete(event)
+        db.session.commit()
+    return redirect(url_for('DB_Status'))
+
+
 # Races
 @app.route('/create-race', methods=['GET','POST'])
 def create_race():
@@ -79,6 +88,15 @@ def create_race():
         db.session.commit()
         return redirect(url_for('DB_Status'))
     return render_template('create/create-race.html')
+
+@app.route('/delete-race/<int:race_id>', methods=['GET','POST'])
+def delete_race(race_id):
+    race = Races.query.get(race_id)
+    if race:
+        db.session.delete(race)
+        db.session.commit()
+    return redirect(url_for('DB_Status'))
+
 
 # Religions
 @app.route('/create-religion', methods=['GET','POST'])
@@ -103,6 +121,15 @@ def create_religion():
         return redirect(url_for('DB_Status'))
     return render_template('create/create-religion.html')
 
+@app.route('/delete-religion/<int:religion_id>', methods=['GET','POST'])
+def delete_religion(religion_id):
+    religion = Religions.query.get(religion_id)
+    if religion:
+        db.session.delete(religion)
+        db.session.commit()
+    return redirect(url_for('DB_Status'))
+
+
 # Settlements
 @app.route('/create-settlement', methods=['GET','POST'])
 def create_settlement():
@@ -124,6 +151,15 @@ def create_settlement():
         return redirect(url_for('DB_Status'))
     return render_template('create/create-settlement.html')
 
+@app.route('/delete-settlement/<int:settlement_id>', methods=['GET','POST'])
+def delete_settlement(settlement_id):
+    settlement = Settlements.query.get(settlement_id)
+    if settlement:
+        db.session.delete(settlement)
+        db.session.commit()
+    return redirect(url_for('DB_Status'))
+
+
 # Worlds
 @app.route('/create-world', methods=['GET','POST'])
 def create_world():
@@ -143,5 +179,15 @@ def create_world():
         return redirect(url_for('DB_Status'))
     return render_template('create/create-world.html')
 
+@app.route('/delete-world/<int:world_id>', methods=['GET','POST'])
+def delete_world(world_id):
+    world = Worlds.query.get(world_id)
+    if world:
+        db.session.delete(world)
+        db.session.commit()
+    return redirect(url_for('DB_Status'))
+
+
+# Run the app
 if __name__ == '__main__':
     app.run(debug=True)
