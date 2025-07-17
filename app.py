@@ -72,6 +72,23 @@ def view_event(event_id):
         return "Event not found", 404
     return render_template('view/view-event.html', event=event)
 
+@app.route('/edit-event/<int:event_id>', methods=['GET','POST'])
+def edit_event(event_id):
+    event = Events.query.get(event_id)
+    if not event:
+        return "Event not found", 404
+    
+    if request.method == 'POST':
+        event.name = request.form['event_name']
+        event.description = request.form.get('event_description', '')
+        event.date = request.form.get('event_date', '')
+        event.notes = request.form.get('event_notes', '')
+
+        db.session.commit()
+        return redirect(url_for('DB_Status'))
+    
+    return render_template('edit/edit-event.html', event=event)
+
 
 # Races
 @app.route('/create-race', methods=['GET','POST'])
@@ -110,6 +127,23 @@ def view_race(race_id):
     if not race:
         return "Race not found", 404
     return render_template('view/view-race.html', race=race)
+
+@app.route('/edit-race/<int:race-id>', methods=['GET','POST'])
+def edit_race(race_id):
+    race = Races.query.get(race_id)
+    if not race:
+        return "Race not found", 404
+    
+    if request.method == 'POST':
+        race.name = request.form['race_name']
+        race.description = request.form.get('race_description', '')
+        race.traits = request.form.get('race.traits', '')
+        race.notes = request.form.get('race_notes', '')
+
+        db.session.commit()
+        return redirect(url_for('DB_Status'))
+    
+    return render_template('edit/edit-race.html', race=race)
 
 
 # Religions
@@ -150,6 +184,23 @@ def view_religion(religion_id):
         return "Religion not found", 404
     return render_template('view/view-religion.html', religion=religion)
 
+@app.route('/edit-religion/<int:religion_id>', methods=['GET','POST'])
+def edit_religion(religion_id):
+    religion = Religions.query.get(religion_id)
+    if not religion:
+        return "Religion not found", 404
+
+    if request.method == 'POST':
+        religion.name = request.form['religion_name']
+        religion.description = request.form.get('religion_description', '')
+        religion.beliefs = request.form.get('religion_beliefs', '')
+        religion.notes = request.form.get('religion_notes', '')
+        
+        db.session.commit()
+        return redirect(url_for('DB_Status'))
+
+    return render_template('edit/edit-religion.html', religion=religion)
+
 
 # Settlements
 @app.route('/create-settlement', methods=['GET','POST'])
@@ -187,6 +238,22 @@ def view_settlement(settlement_id):
         return "Settlement not found", 404
     return render_template('view/view-settlement.html', settlement=settlement)
 
+@app.route('/edit-settlement/<int:settlement_id>', methods=['GET','POST'])
+def edit_settlement(settlement_id):
+    settlement = Settlements.query.get(settlement_id)
+    if not settlement:
+        return "Settlement not found", 404
+
+    if request.method == 'POST':
+        settlement.name = request.form['settlement_name']
+        settlement.description = request.form.get('settlement_description', '')
+        settlement.notes = request.form.get('settlement_notes', '')
+        
+        db.session.commit()
+        return redirect(url_for('DB_Status'))
+
+    return render_template('edit/edit-settlement.html', settlement=settlement)
+
 
 # Worlds
 @app.route('/create-world', methods=['GET','POST'])
@@ -222,6 +289,21 @@ def view_world(world_id):
         return "World not found", 404
     return render_template('view/view-world.html', world=world)
 
+@app.route('/edit-world/<int:world_id>', methods=['GET','POST'])
+def edit_world(world_id):
+    world = Worlds.query.get(world_id)
+    if not world:
+        return "World not found", 404
+
+    if request.method == 'POST':
+        world.name = request.form['world_name']
+        world.description = request.form.get('world_description', '')
+        world.notes = request.form.get('world_notes', '')
+        
+        db.session.commit()
+        return redirect(url_for('DB_Status'))
+
+    return render_template('edit/edit-world.html', world=world)
 
 # Run the app
 if __name__ == '__main__':

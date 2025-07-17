@@ -24,6 +24,7 @@
         <li>{{ event.updated_at }}</li>
     </ul>
     <a href="{{ url_for('view_event', event_id=event.id) }}">View</a>
+    <a href="{{ url_for('edit_event', event_id=event.id) }}">Edit</a>
     <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -45,6 +46,7 @@
         <li>{{ race.updated_at }}</li>
     </ul>
     <a href="{{ url_for('view_race', race_id=race.id) }}">View</a>
+    <a href="{{ url_for('edit_race', race_id=race.id) }}">Edit</a>
     <form action="{{ url_for('delete_race', race_id=race.id)}}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -65,6 +67,7 @@
         <li>{{ religion.updated_at }}</li>
     </ul>
     <a href="{{ url_for('view_religion', religion_id=religion.id) }}">View</a>
+    <a href="{{ url_for('edit_religion', religion_id=religion.id) }}">Edit</a>
     <form action="{{ url_for('delete_religion', religion_id=religion.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -85,6 +88,7 @@
         <li>{{ settlement.updated_at }}</li>
     </ul>
     <a href="{{ url_for('view_settlement', settlement_id=settlement.id) }}">View</a>
+    <a href="{{ url_for('edit_settlement', settlement_id=settlement.id) }}">Edit</a>
     <form action="{{ url_for('delete_settlement', settlement_id=settlement.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -104,6 +108,7 @@
         <li>{{ world.updated_at }}</li>
     </ul>
     <a href="{{ url_for('view_world', world_id=world.id) }}">View</a>
+    <a href="{{ url_for('edit_world', world_id=world.id) }}">Edit</a>
     <form action="{{ url_for('delete_world', world_id=world.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>

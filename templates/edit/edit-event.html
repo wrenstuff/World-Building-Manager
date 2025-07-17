@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Event</title>
+</head>
+
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h2>Edit Religion</h2>
+        <form action="{{ url_for('edit_event', event_id=event.id) }}" method="POST">
+            <label for="religion_name">Religion Name</label>
+            <input type="text" id="event_name" name="event_name" value="{{ event.name }}" required>
+            <label for="event_description">Description</label>
+            <textarea id="event_description" name="event_description" required>{{ event.description }}</textarea>
+            <label for="event_beliefs">Time</label>
+            <textarea id="event_beliefs" name="event_beliefs">{{ event.beliefs }}</textarea>
+            <label for="event_notes">Notes</label>
+            <textarea id="event_notes" name="event_notes">{{ event.notes }}</textarea>
+            <button type="submit">Edit Event</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
