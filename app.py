@@ -128,7 +128,7 @@ def view_race(race_id):
         return "Race not found", 404
     return render_template('view/view-race.html', race=race)
 
-@app.route('/edit-race/<int:race-id>', methods=['GET','POST'])
+@app.route('/edit-race/<int:race_id>', methods=['GET','POST'])
 def edit_race(race_id):
     race = Races.query.get(race_id)
     if not race:

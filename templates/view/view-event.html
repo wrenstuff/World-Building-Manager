@@ -19,6 +19,13 @@
         <p>Updated At: {{ event.updated_at }}</p>
     </div>
 
+    <div class="actions">
+        <a href="{{ url_for('edit_event', event_id=event.id) }}">Edit Event</a>
+        <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST" style="display:inline;">
+            <button type="submit">Delete Event</button>
+        </form>
+    </div>
+
 </body>
 
 </html>
