@@ -30,8 +30,8 @@ def DB_Status():
                            settlements=settlements, 
                            worlds=worlds)
 
-# Routes for creating and deleting entries
-# Put new entries templates in the 'create' folder
+# Routes for creating, viewing, editing, and deleting entries
+# Put new templates in the respective folders located under 'templates/'
 # And enter the routes alphabetically
 
 # Events
@@ -65,6 +65,13 @@ def delete_event(event_id):
         db.session.commit()
     return redirect(url_for('DB_Status'))
 
+@app.route('/view-event/<int:event_id>', methods=['GET','POST'])
+def view_event(event_id):
+    event = Events.query.get(event_id)
+    if not event:
+        return "Event not found", 404
+    return render_template('view/view-event.html', event=event)
+
 
 # Races
 @app.route('/create-race', methods=['GET','POST'])
@@ -96,6 +103,13 @@ def delete_race(race_id):
         db.session.delete(race)
         db.session.commit()
     return redirect(url_for('DB_Status'))
+
+@app.route('/view-race/<int:race_id>', methods=['GET','POST'])
+def view_race(race_id):
+    race = Races.query.get(race_id)
+    if not race:
+        return "Race not found", 404
+    return render_template('view/view-race.html', race=race)
 
 
 # Religions
@@ -129,6 +143,13 @@ def delete_religion(religion_id):
         db.session.commit()
     return redirect(url_for('DB_Status'))
 
+@app.route('/view-religion/<int:religion_id>', methods=['GET','POST'])
+def view_religion(religion_id):
+    religion = Religions.query.get(religion_id)
+    if not religion:
+        return "Religion not found", 404
+    return render_template('view/view-religion.html', religion=religion)
+
 
 # Settlements
 @app.route('/create-settlement', methods=['GET','POST'])
@@ -159,6 +180,13 @@ def delete_settlement(settlement_id):
         db.session.commit()
     return redirect(url_for('DB_Status'))
 
+@app.route('/view-settlement/<int:settlement_id>', methods=['GET','POST'])
+def view_settlement(settlement_id):
+    settlement = Settlements.query.get(settlement_id)
+    if not settlement:
+        return "Settlement not found", 404
+    return render_template('view/view-settlement.html', settlement=settlement)
+
 
 # Worlds
 @app.route('/create-world', methods=['GET','POST'])
@@ -186,6 +214,13 @@ def delete_world(world_id):
         db.session.delete(world)
         db.session.commit()
     return redirect(url_for('DB_Status'))
+
+@app.route('/view-world/<int:world_id>', methods=['GET','POST'])
+def view_world(world_id):
+    world = Worlds.query.get(world_id)
+    if not world:
+        return "World not found", 404
+    return render_template('view/view-world.html', world=world)
 
 
 # Run the app

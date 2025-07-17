@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h1>{{ world.name }}</h1>
+        <p>Description: {{ world.description }}</p>
+        <p>Notes: {{ world.notes }}</p>
+        <p>Created At: {{ world.created_at }}</p>
+        <p>Updated At: {{ world.updated_at }}</p>
+    </div>
+
+</body>
+
+</html>

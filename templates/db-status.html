@@ -23,6 +23,7 @@
         <li>{{ event.created_at }}</li>
         <li>{{ event.updated_at }}</li>
     </ul>
+    <a href="{{ url_for('view_event', event_id=event.id) }}">View</a>
     <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -43,6 +44,7 @@
         <li>{{ race.created_at }}</li>
         <li>{{ race.updated_at }}</li>
     </ul>
+    <a href="{{ url_for('view_race', race_id=race.id) }}">View</a>
     <form action="{{ url_for('delete_race', race_id=race.id)}}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -62,6 +64,7 @@
         <li>{{ religion.created_at }}</li>
         <li>{{ religion.updated_at }}</li>
     </ul>
+    <a href="{{ url_for('view_religion', religion_id=religion.id) }}">View</a>
     <form action="{{ url_for('delete_religion', religion_id=religion.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -81,6 +84,7 @@
         <li>{{ settlement.created_at }}</li>
         <li>{{ settlement.updated_at }}</li>
     </ul>
+    <a href="{{ url_for('view_settlement', settlement_id=settlement.id) }}">View</a>
     <form action="{{ url_for('delete_settlement', settlement_id=settlement.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
@@ -99,6 +103,7 @@
         <li>{{ world.created_at }}</li>
         <li>{{ world.updated_at }}</li>
     </ul>
+    <a href="{{ url_for('view_world', world_id=world.id) }}">View</a>
     <form action="{{ url_for('delete_world', world_id=world.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h1>{{ settlement.name }}</h1>
+        <p>Description: {{ settlement.description }}</p>
+        <p>Notes: {{ settlement.notes }}</p>
+        <h4>Created At: {{ settlement.created_at }}</h4>
+        <h4>Updated At: {{ settlement.updated_at }}</h4>
+    </div>
+
+</body>
+
+</html>
