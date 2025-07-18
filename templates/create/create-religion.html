@@ -11,10 +11,15 @@
 
     <a href="{{ url_for('DB_Status') }}">Back</a>
     <div class="form-container">
-        <h2>Create new world</h2>
+        <h2>Create new religion</h2>
         <form action="{{ url_for('create_religion') }}" method="POST">
-            <label for="world_id">World ID</label>
-            <input type="text" id="world_id" name="world_id" required>
+            {% if session.get('selected_world_id') %}
+                <label for="world_id" hidden>World ID</label>
+                <input type="text" id="world_id" name="world_id" value="{{ session['selected_world_id'] }}" required hidden>
+            {% else %}
+                <label for="world_id">World ID</label>
+                <input type="text" id="world_id" name="world_id" required>
+            {% endif %}
             <label for="religion_name">Religion Name</label>
             <input type="text" id="world_name" name="religion_name" required>
             <label for="religion_description">Description</label>

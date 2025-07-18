@@ -1,5 +1,5 @@
 from models import db
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 from models import Events
 from models import Races
@@ -304,6 +304,20 @@ def edit_world(world_id):
         return redirect(url_for('DB_Status'))
 
     return render_template('edit/edit-world.html', world=world)
+
+
+# Select World to reference in other entries
+@app.route('/select-world/<int:world_id>', methods=['GET','POST'])
+def select_world_id(world_id):
+    if not Worlds.query.get(world_id):
+        return "World not found", 404
+    session['selected_world_id'] = world_id
+    return redirect(url_for('DB_Status'))
+
+@app.route('/clear-selected-world', methods=['GET','POST'])
+def clear_selected_world():
+    session.pop('selected_world_id', None)
+    return redirect(url_for('DB_Status'))
 
 # Run the app
 if __name__ == '__main__':

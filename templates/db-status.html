@@ -98,6 +98,15 @@
     <h2>Worlds</h2>
     <a href="{{ url_for('create_world') }}">Create</a>
 
+    {% if session.get('selected_world_id') %}
+        <p>Selected World ID: {{ session['selected_world_id'] }}</p>
+        <form action="{{ url_for('clear_selected_world') }}" method="POST">
+            <button type="submit">Clear Selected World</button>
+        </form>
+    {% else %}
+        <p>No world selected.</p>
+    {% endif %}
+
     {% for world in worlds %}
     <ul>
         <li>{{ world.id }}</li>
@@ -112,6 +121,8 @@
     <form action="{{ url_for('delete_world', world_id=world.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
+    <form action="{{ url_for('select_world_id', world_id=world.id) }}" method="POST" style="display:inline;">
+        <button type="submit">Select {{ world.name }}</button>
     {% endfor %}
 
 

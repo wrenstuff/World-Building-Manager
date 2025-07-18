@@ -11,7 +11,7 @@
 
     <a href="{{ url_for('DB_Status') }}">Back</a>
     <div class="form-container">
-        <h2>Edit Religion</h2>
+        <h2>Edit Event</h2>
         <form action="{{ url_for('edit_event', event_id=event.id) }}" method="POST">
             <label for="religion_name">Religion Name</label>
             <input type="text" id="event_name" name="event_name" value="{{ event.name }}" required>
