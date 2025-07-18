@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit World</title>
+</head>
+
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h2>Edit World</h2>
+        <form action="{{ url_for('edit_world', world_id=world.id) }}" method="POST">
+            <label for="world_name">World Name</label>
+            <input type="text" id="world_name" name="world_name" value="{{ world.name }}" required>
+            <label for="world_description">Description</label>
+            <textarea id="world_description" name="world_description" required>{{ world.description }}</textarea>
+            <label for="world_notes">Notes</label>
+            <textarea id="world_notes" name="world_notes">{{ world.notes }}</textarea>
+            <button type="submit">Edit World</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

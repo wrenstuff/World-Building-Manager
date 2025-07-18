@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Settlement</title>
+</head>
+
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h1>{{ settlement.name }}</h1>
+        <p>Description: {{ settlement.description }}</p>
+        <p>Notes: {{ settlement.notes }}</p>
+        <h4>Created At: {{ settlement.created_at }}</h4>
+        <h4>Updated At: {{ settlement.updated_at }}</h4>
+    </div>
+
+    <div class="actions">
+        <a href="{{ url_for('edit_settlement', settlement_id=settlement.id) }}">Edit Settlement</a>
+        <form action="{{ url_for('delete_settlement', settlement_id=settlement.id) }}" method="POST" style="display:inline;">
+            <button type="submit">Delete Settlement</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

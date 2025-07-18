@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create World</title>
+</head>
+
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h2>Create new world</h2>
+        <form action="{{ url_for('create_world') }}" method="POST">
+            <label for="world_name">World Name</label>
+            <input type="text" id="world_name" name="world_name" required>
+            <label for="world_description">Description</label>
+            <textarea id="world_description" name="world_description" required></textarea>
+            <label for="world_notes">Notes</label>
+            <textarea id="world_notes" name="world_notes"></textarea>
+            <button type="submit">Create World</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
