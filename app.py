@@ -84,6 +84,12 @@ def create_event():
 @app.route('/delete-event/<int:event_id>', methods=['GET','POST'])
 def delete_event(event_id):
     event = Events.query.get(event_id)
+
+    if event and event.notes:
+        notes_file_path = os.path.join('static', event.notes)
+        if os.path.exists(event.notes):
+            os.remove(event.notes)
+
     if event:
         db.session.delete(event)
         db.session.commit()
@@ -138,7 +144,7 @@ def create_race():
                             name=race_name,
                             description=race_description,
                             traits=race_traits,
-                            notes=race_notes)
+                            notes=race_notes_link)
             
             notes_dir = os.path.dirname(race_notes_link)
             if not os.path.exists(notes_dir):
@@ -155,6 +161,12 @@ def create_race():
 @app.route('/delete-race/<int:race_id>', methods=['GET','POST'])
 def delete_race(race_id):
     race = Races.query.get(race_id)
+
+    if race and race.notes:
+        notes_file_path = os.path.join('static', race.notes)
+        if os.path.exists(race.notes):
+            os.remove(race.notes)
+
     if race:
         db.session.delete(race)
         db.session.commit()
@@ -210,7 +222,7 @@ def create_religion():
                                     name=religion_name,
                                     description=religion_description,
                                     beliefs=religion_beliefs,
-                                    notes=religion_notes)
+                                    notes=religion_notes_link)
             db.session.add(new_religion)
             db.session.commit()
         
@@ -228,6 +240,12 @@ def create_religion():
 @app.route('/delete-religion/<int:religion_id>', methods=['GET','POST'])
 def delete_religion(religion_id):
     religion = Religions.query.get(religion_id)
+
+    if religion and religion.notes:
+        notes_file_path = os.path.join('static', religion.notes)
+        if os.path.exists(religion.notes):
+            os.remove(religion.notes)
+
     if religion:
         db.session.delete(religion)
         db.session.commit()
@@ -280,7 +298,7 @@ def create_settlement():
             new_settlement = Settlements(world_id=world_id,
                                         name=settlement_name,
                                         description=settlement_description,
-                                        notes=settlement_notes)
+                                        notes=settlement_notes_link)
             db.session.add(new_settlement)
             db.session.commit()
 
@@ -297,6 +315,12 @@ def create_settlement():
 @app.route('/delete-settlement/<int:settlement_id>', methods=['GET','POST'])
 def delete_settlement(settlement_id):
     settlement = Settlements.query.get(settlement_id)
+
+    if settlement and settlement.notes:
+        notes_file_path = os.path.join('static', settlement.notes)
+        if os.path.exists(settlement.notes):
+            os.remove(settlement.notes)
+
     if settlement:
         db.session.delete(settlement)
         db.session.commit()
@@ -346,7 +370,7 @@ def create_world():
         else:
             new_world = Worlds(name=world_name, 
                             description=world_description, 
-                            notes=world_notes)
+                            notes=world_notes_link)
             db.session.add(new_world)
             db.session.commit()
 
@@ -362,6 +386,12 @@ def create_world():
 @app.route('/delete-world/<int:world_id>', methods=['GET','POST'])
 def delete_world(world_id):
     world = Worlds.query.get(world_id)
+
+    if world and world.notes:
+        notes_file_path = os.path.join('static', world.notes)
+        if os.path.exists(world.notes):
+            os.remove(world.notes)
+
     if world:
         db.session.delete(world)
         db.session.commit()
