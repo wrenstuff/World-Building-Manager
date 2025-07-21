@@ -98,13 +98,29 @@ def delete_event(event_id):
 @app.route('/view-event/<int:event_id>', methods=['GET','POST'])
 def view_event(event_id):
     event = Events.query.get(event_id)
+
+    notes_content = ''
+    if event and event.notes and os.path.exists(event.notes):
+        with open(event.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = "No notes available for this event."
+
     if not event:
         return "Event not found", 404
-    return render_template('view/view-event.html', event=event)
+    return render_template('view/view-event.html', event=event, notes_content=notes_content)
 
 @app.route('/edit-event/<int:event_id>', methods=['GET','POST'])
 def edit_event(event_id):
     event = Events.query.get(event_id)
+
+    notes_content = ''
+    if event and event.notes and os.path.exists(event.notes):
+        with open(event.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = ""
+
     if not event:
         return "Event not found", 404
     
@@ -117,7 +133,7 @@ def edit_event(event_id):
         db.session.commit()
         return redirect(url_for('DB_Status'))
     
-    return render_template('edit/edit-event.html', event=event)
+    return render_template('edit/edit-event.html', event=event, notes_content=notes_content)
 
 
 # Races
@@ -175,13 +191,29 @@ def delete_race(race_id):
 @app.route('/view-race/<int:race_id>', methods=['GET','POST'])
 def view_race(race_id):
     race = Races.query.get(race_id)
+
+    notes_content = ''
+    if race and race.notes and os.path.exists(race.notes):
+        with open(race.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = "No notes available for this race."
+
     if not race:
         return "Race not found", 404
-    return render_template('view/view-race.html', race=race)
+    return render_template('view/view-race.html', race=race, notes_content=notes_content)
 
 @app.route('/edit-race/<int:race_id>', methods=['GET','POST'])
 def edit_race(race_id):
     race = Races.query.get(race_id)
+
+    notes_content = ''
+    if race and race.notes and os.path.exists(race.notes):
+        with open(race.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = ""
+
     if not race:
         return "Race not found", 404
     
@@ -194,7 +226,7 @@ def edit_race(race_id):
         db.session.commit()
         return redirect(url_for('DB_Status'))
     
-    return render_template('edit/edit-race.html', race=race)
+    return render_template('edit/edit-race.html', race=race, notes_content=notes_content)
 
 
 # Religions
@@ -254,13 +286,29 @@ def delete_religion(religion_id):
 @app.route('/view-religion/<int:religion_id>', methods=['GET','POST'])
 def view_religion(religion_id):
     religion = Religions.query.get(religion_id)
+
+    notes_content = ''
+    if religion and religion.notes and os.path.exists(religion.notes):
+        with open(religion.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = "No notes available for this religion."
+
     if not religion:
         return "Religion not found", 404
-    return render_template('view/view-religion.html', religion=religion)
+    return render_template('view/view-religion.html', religion=religion, notes_content=notes_content)
 
 @app.route('/edit-religion/<int:religion_id>', methods=['GET','POST'])
 def edit_religion(religion_id):
     religion = Religions.query.get(religion_id)
+
+    notes_content = ''
+    if religion and religion.notes and os.path.exists(religion.notes):
+        with open(religion.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = ""
+
     if not religion:
         return "Religion not found", 404
 
@@ -273,7 +321,7 @@ def edit_religion(religion_id):
         db.session.commit()
         return redirect(url_for('DB_Status'))
 
-    return render_template('edit/edit-religion.html', religion=religion)
+    return render_template('edit/edit-religion.html', religion=religion, notes_content=notes_content)
 
 
 # Settlements
@@ -329,13 +377,29 @@ def delete_settlement(settlement_id):
 @app.route('/view-settlement/<int:settlement_id>', methods=['GET','POST'])
 def view_settlement(settlement_id):
     settlement = Settlements.query.get(settlement_id)
+
+    notes_content = ''
+    if settlement and settlement.notes and os.path.exists(settlement.notes):
+        with open(settlement.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = "No notes available for this settlement."
+
     if not settlement:
         return "Settlement not found", 404
-    return render_template('view/view-settlement.html', settlement=settlement)
+    return render_template('view/view-settlement.html', settlement=settlement, notes_content=notes_content)
 
 @app.route('/edit-settlement/<int:settlement_id>', methods=['GET','POST'])
 def edit_settlement(settlement_id):
     settlement = Settlements.query.get(settlement_id)
+
+    notes_content = ''
+    if settlement and settlement.notes and os.path.exists(settlement.notes):
+        with open(settlement.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = ""
+
     if not settlement:
         return "Settlement not found", 404
 
@@ -347,7 +411,7 @@ def edit_settlement(settlement_id):
         db.session.commit()
         return redirect(url_for('DB_Status'))
 
-    return render_template('edit/edit-settlement.html', settlement=settlement)
+    return render_template('edit/edit-settlement.html', settlement=settlement, notes_content=notes_content)
 
 
 # Worlds
@@ -400,13 +464,29 @@ def delete_world(world_id):
 @app.route('/view-world/<int:world_id>', methods=['GET','POST'])
 def view_world(world_id):
     world = Worlds.query.get(world_id)
+
+    notes_content = ''
+    if world and world.notes and os.path.exists(world.notes):
+        with open(world.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = "No notes available for this world."
+
     if not world:
         return "World not found", 404
-    return render_template('view/view-world.html', world=world)
+    return render_template('view/view-world.html', world=world, notes_content=notes_content)
 
 @app.route('/edit-world/<int:world_id>', methods=['GET','POST'])
 def edit_world(world_id):
     world = Worlds.query.get(world_id)
+
+    notes_content = ''
+    if world and world.notes and os.path.exists(world.notes):
+        with open(world.notes, 'r', encoding='utf-8') as notes_file:
+            notes_content = notes_file.read()
+    else:
+        notes_content = ""
+
     if not world:
         return "World not found", 404
 
@@ -418,7 +498,7 @@ def edit_world(world_id):
         db.session.commit()
         return redirect(url_for('DB_Status'))
 
-    return render_template('edit/edit-world.html', world=world)
+    return render_template('edit/edit-world.html', world=world, notes_content=notes_content)
 
 
 # Select World to reference in other entries
