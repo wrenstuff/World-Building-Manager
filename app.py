@@ -1,5 +1,7 @@
 from models import db
 from flask import Flask, render_template, request, redirect, url_for, session
+import os
+import re
 
 from models import Events
 from models import Races
@@ -14,6 +16,13 @@ app.secret_key = 'secret_key'
 db.init_app(app)
 with app.app_context():
     db.create_all()
+
+if not os.path.exists('static/notes'):
+    os.makedirs('static/notes')
+
+def clean_filename(filename):
+    # Remove any characters that are not alphanumeric, underscores, or hyphens
+    return re.sub(r'[^a-zA-Z0-9_\-]', '_', filename)
 
 @app.route('/')
 def DB_Status():
@@ -43,18 +52,33 @@ def create_event():
         event_description = request.form.get('event_description', '')
         event_date = request.form.get('event_date', '')
         event_notes = request.form.get('event_notes', '')
+        last_event_id = Events.query.order_by(Events.id.desc()).first()
+        event_id = last_event_id.id + 1 if last_event_id else 1
+        event_notes_file_name = str(world_id) + '-' + str(event_id) + '-' + 'event-' + clean_filename(event_name) + '-notes.md'
+        event_notes_link = f'static/notes/{event_notes_file_name}'
         
         if not world_id or not event_name:
             return "World ID and Name are required", 400
         
-        new_event = Events(world_id=world_id, 
-                           name=event_name, 
-                           description=event_description, 
-                           date=event_date, 
-                           notes=event_notes)
-        db.session.add(new_event)
-        db.session.commit()
-        return redirect(url_for('DB_Status'))
+        if event_name in [e.name for e in Events.query.filter_by(world_id=world_id).all()]:
+            return "Event with this name already exists in the selected world", 400
+        else:
+            new_event = Events(world_id=world_id, 
+                            name=event_name, 
+                            description=event_description, 
+                            date=event_date, 
+                            notes=event_notes_link)
+            
+            notes_dir = os.path.dirname(event_notes_link)
+            if not os.path.exists(notes_dir):
+                os.makedirs(notes_dir)
+
+            with open(event_notes_link, 'w', encoding='utf-8') as notes_file:
+                notes_file.write(event_notes)
+
+            db.session.add(new_event)
+            db.session.commit()
+            return redirect(url_for('DB_Status'))
     return render_template('create/create-event.html')
 
 @app.route('/delete-event/<int:event_id>', methods=['GET','POST'])
