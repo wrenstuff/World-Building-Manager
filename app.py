@@ -54,7 +54,7 @@ def create_event():
         event_notes = request.form.get('event_notes', '')
         last_event_id = Events.query.order_by(Events.id.desc()).first()
         event_id = last_event_id.id + 1 if last_event_id else 1
-        event_notes_file_name = str(world_id) + '-' + str(event_id) + '-' + 'event-' + clean_filename(event_name) + '-notes.md'
+        event_notes_file_name = str(world_id) + '-' + str(event_id) + '-event-' + clean_filename(event_name) + '-notes.md'
         event_notes_link = f'static/notes/{event_notes_file_name}'
         
         if not world_id or not event_name:
@@ -123,18 +123,33 @@ def create_race():
         race_description = request.form.get('race_description', '')
         race_traits = request.form.get('race_traits', '')
         race_notes = request.form.get('race_notes', '')
+        last_race_id = Races.query.order_by(Races.id.desc()).first()
+        race_id = last_race_id.id + 1 if last_race_id else 1
+        race_notes_file_name = str(world_id) + '-' + str(race_name) + '-race-' + clean_filename(race_name) + '-notes.md'
+        race_notes_link = f'static/notes/{race_notes_file_name}'
 
         if not world_id or not race_name:
             return "World ID and Name are required", 400
         
-        new_race = Races(world_id=world_id,
-                         name=race_name,
-                         description=race_description,
-                         traits=race_traits,
-                         notes=race_notes)
-        db.session.add(new_race)
-        db.session.commit()
-        return redirect(url_for('DB_Status'))
+        if race_name in [r.name for r in Races.query.filter_by(world_id=world_id).all()]:
+            return "Race with this name already exists in the selected world", 400
+        else:        
+            new_race = Races(world_id=world_id,
+                            name=race_name,
+                            description=race_description,
+                            traits=race_traits,
+                            notes=race_notes)
+            
+            notes_dir = os.path.dirname(race_notes_link)
+            if not os.path.exists(notes_dir):
+                os.makedirs(notes_dir)
+            
+            with open(race_notes_link, 'w', encoding='utf-8') as notes_file:
+                notes_file.write(race_notes)
+
+            db.session.add(new_race)
+            db.session.commit()
+            return redirect(url_for('DB_Status'))
     return render_template('create/create-race.html')
 
 @app.route('/delete-race/<int:race_id>', methods=['GET','POST'])
@@ -179,18 +194,35 @@ def create_religion():
         religion_description = request.form.get('religion_description', '')
         religion_beliefs = request.form.get('religion_beliefs', '')
         religion_notes = request.form.get('religion_notes', '')
+        last_religion_id = Religions.query.order_by(Religions.id.desc()).first()
+        religion_id = last_religion_id.id + 1 if last_religion_id else 1
+        religion_notes_file_name = str(world_id) + '-' + str(religion_id) + '-religion-' + clean_filename(religion_name) + '-notes.md'
+        religion_notes_link = f'static/notes/{religion_notes_file_name}'
 
         if not world_id or not religion_name:
             return "World ID and Name are required", 400
         
-        new_religion = Religions(world_id=world_id,
-                                 name=religion_name,
-                                 description=religion_description,
-                                 beliefs=religion_beliefs,
-                                 notes=religion_notes)
-        db.session.add(new_religion)
-        db.session.commit()
-        return redirect(url_for('DB_Status'))
+        if religion_name in [r.name for r in Religions.query.filter_by(world_id=world_id).all()]:
+            return "Religion with this name already exists in the selected world", 400
+        else:
+        
+            new_religion = Religions(world_id=world_id,
+                                    name=religion_name,
+                                    description=religion_description,
+                                    beliefs=religion_beliefs,
+                                    notes=religion_notes)
+            db.session.add(new_religion)
+            db.session.commit()
+        
+            notes_dir = os.path.dirname(religion_notes_link)
+            if not os.path.exists(notes_dir):
+                os.makedirs(notes_dir)
+
+            with open(religion_notes_link, 'w', encoding='utf-8') as notes_file:
+                notes_file.write(religion_notes)
+
+
+            return redirect(url_for('DB_Status'))
     return render_template('create/create-religion.html')
 
 @app.route('/delete-religion/<int:religion_id>', methods=['GET','POST'])
@@ -234,17 +266,32 @@ def create_settlement():
         settlement_name = request.form['settlement_name']
         settlement_description = request.form.get('settlement_description', '')
         settlement_notes = request.form.get('settlement_notes', '')
+        last_settlement_id = Settlements.query.order_by(Settlements.id.desc()).first()
+        settlement_id = last_settlement_id.id + 1 if last_settlement_id else 1
+        settlement_notes_file_name = str(world_id) + '-' + str(settlement_id) + '-settlement-' + clean_filename(settlement_name) + '-notes.md'
+        settlement_notes_link = f'static/notes/{settlement_notes_file_name}'
 
         if not world_id or not settlement_name:
             return "World ID and Name are required", 400
         
-        new_settlement = Settlements(world_id=world_id,
-                                     name=settlement_name,
-                                     description=settlement_description,
-                                     notes=settlement_notes)
-        db.session.add(new_settlement)
-        db.session.commit()
-        return redirect(url_for('DB_Status'))
+        if settlement_name in [s.name for s in Settlements.query.filter_by(world_id=world_id).all()]:
+            return "Settlement with this name already exists in the selected world", 400
+        else:
+            new_settlement = Settlements(world_id=world_id,
+                                        name=settlement_name,
+                                        description=settlement_description,
+                                        notes=settlement_notes)
+            db.session.add(new_settlement)
+            db.session.commit()
+
+            notes_dir = os.path.dirname(settlement_notes_link)
+            if not os.path.exists(notes_dir):
+                os.makedirs(notes_dir)
+
+            with open(settlement_notes_link, 'w', encoding='utf-8') as notes_file:
+                notes_file.write(settlement_notes)
+
+            return redirect(url_for('DB_Status'))
     return render_template('create/create-settlement.html')
 
 @app.route('/delete-settlement/<int:settlement_id>', methods=['GET','POST'])
@@ -286,16 +333,30 @@ def create_world():
         world_name = request.form['world_name']
         world_description = request.form.get('world_description', '')
         world_notes = request.form.get('world_notes', '')
+        last_world_id = Worlds.query.order_by(Worlds.id.desc()).first()
+        world_id = last_world_id.id + 1 if last_world_id else 1
+        world_notes_file_name = str(world_id) + '-world-' + clean_filename(world_name) + '-notes.md'
+        world_notes_link = f'static/notes/{world_notes_file_name}'
 
         if not world_name:
             return "World name is required", 400
+        
+        if world_name in [w.name for w in Worlds.query.all()]:
+            return "World with this name already exists", 400
+        else:
+            new_world = Worlds(name=world_name, 
+                            description=world_description, 
+                            notes=world_notes)
+            db.session.add(new_world)
+            db.session.commit()
 
-        new_world = Worlds(name=world_name, 
-                           description=world_description, 
-                           notes=world_notes)
-        db.session.add(new_world)
-        db.session.commit()
-        return redirect(url_for('DB_Status'))
+            notes_dir = os.path.dirname(world_notes_link)
+            if not os.path.exists(notes_dir):
+                os.makedirs(notes_dir)
+            with open(world_notes_link, 'w', encoding='utf-8') as notes_file:
+                notes_file.write(world_notes)
+
+            return redirect(url_for('DB_Status'))
     return render_template('create/create-world.html')
 
 @app.route('/delete-world/<int:world_id>', methods=['GET','POST'])
