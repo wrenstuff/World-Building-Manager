@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_form_edit.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Race</title>
-</head>
+{% block form_fields %}
+    <label for="name">Race Name</label>
+    <input type="text" id="name" name="name" value="{{ race.name }}" required>
 
-<body>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required>{{ race.description }}</textarea>
 
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h2>Edit Race</h2>
-        <form action="{{ url_for('edit_race', race_id=race.id) }}" method="POST">
-            <label for="race_name">Race Name</label>
-            <input type="text" id="race_name" name="race_name" value="{{ race.name }}" required>
-            <label for="race_description">Description</label>
-            <textarea name="race_description" id="race_description">{{ race.description }}</textarea>
-            <label for="race_traits">Traits</label>
-            <textarea name="race_traits" id="race_traits">{{ race.traits }}</textarea>
-            <label for="race_notes">Notes</label>
-            <textarea name="race_notes" id="race_notes">{{ notes_content }}</textarea>
-            <button type="submit">Edit Race</button>
-        </form>
-</body>
+    <label for="traits">Traits</label>
+    <textarea id="traits" name="traits">{{ race.traits }}</textarea>
 
-</html>
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes">{{ notes_content }}</textarea>
+{% endblock %}
+
+{% set title = "Edit Race" %}
+{% set heading = "Edit new race" %}
+{% set action_url = url_for('edit_race', race_id=race.id) %}
+{% set button_text = "Edit Race" %}

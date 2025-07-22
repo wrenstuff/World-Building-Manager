@@ -1,28 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_form_edit.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Settlement</title>
-</head>
+{% block form_fields %}
+    <label for="name">Settlement Name</label>
+    <input type="text" id="name" name="name" value="{{ settlement.name }}" required>
 
-<body>
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h1>Edit Settlement</h1>
-        <form action="{{ url_for('edit_settlement', settlement_id=settlement.id) }}" method="POST">
-            <label for="settlement_name">Settlement Name</label>
-            <input type="text" id="settlement_name" name="settlement_name" value="{{ settlement.name }}" required>
-            <label for="settlement_description">Description</label>
-            <textarea id="settlement_description" name="settlement_description"
-                required>{{ settlement.description }}</textarea>
-            <label for="settlement_notes">Notes</label>
-            <textarea id="settlement_notes" name="settlement_notes">{{ notes_content }}</textarea>
-            <button type="submit">Edit Settlement</button>
-        </form>
-    </div>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required>{{ settlement.description }}</textarea>
 
-</body>
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes">{{ notes_content }}</textarea>
+{% endblock %}
 
-</html>
+{% set title = "Edit Settlement" %}
+{% set heading = "Edit Settlement Details" %}
+{% set action_url = url_for('edit_settlement', settlement_id=settlement.id) %}
+{% set button_text = "Save Changes" %}

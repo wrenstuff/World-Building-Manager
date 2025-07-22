@@ -11,10 +11,10 @@ db = SQLAlchemy()
 # characters
 # creatures
 # events
-class Events(db.Model):
-    __tablename__ = 'events'
+class Event(db.Model):
+    __tablename__ = 'event'
     id = db.Column(db.Integer, primary_key=True)
-    world_id = db.Column(db.Integer, db.ForeignKey('worlds.id'), nullable=False)
+    world_id = db.Column(db.Integer, db.ForeignKey('world.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     date = db.Column(db.String(100))
@@ -30,10 +30,10 @@ class Events(db.Model):
 # notes
 # people
 # races
-class Races(db.Model):
-    __tablename__ = 'races'
+class Race(db.Model):
+    __tablename__ = 'race'
     id = db.Column(db.Integer, primary_key=True)
-    world_id = db.Column(db.Integer, db.ForeignKey('worlds.id'), nullable=False)
+    world_id = db.Column(db.Integer, db.ForeignKey('world.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     traits = db.Column(db.Text)
@@ -42,10 +42,10 @@ class Races(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
 # religions
-class Religions(db.Model):
-    __tablename__ = 'religions'
+class Religion(db.Model):
+    __tablename__ = 'religion'
     id = db.Column(db.Integer, primary_key=True)
-    world_id = db.Column(db.Integer, db.ForeignKey('worlds.id'), nullable=False)
+    world_id = db.Column(db.Integer, db.ForeignKey('world.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     beliefs = db.Column(db.Text)
@@ -54,10 +54,10 @@ class Religions(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
 # settlements
-class Settlements(db.Model):
-    __tablename__ = 'settlements'
+class Settlement(db.Model):
+    __tablename__ = 'settlement'
     id = db.Column(db.Integer, primary_key=True)
-    world_id = db.Column(db.Integer, db.ForeignKey('worlds.id'), nullable=False)
+    world_id = db.Column(db.Integer, db.ForeignKey('world.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
     notes = db.Column(db.Text)
@@ -66,8 +66,8 @@ class Settlements(db.Model):
 
 # timelines
 # worlds
-class Worlds(db.Model):
-    __tablename__ = 'worlds'
+class World(db.Model):
+    __tablename__ = 'world'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)

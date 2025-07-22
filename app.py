@@ -5,11 +5,11 @@ import os
 from helpers import handle_create, handle_view, handle_delete, handle_edit
 from utils import clean_filename
 
-from models import Events
-from models import Races
-from models import Religions
-from models import Settlements
-from models import Worlds
+from models import Event
+from models import Race
+from models import Religion
+from models import Settlement
+from models import World
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
@@ -24,18 +24,18 @@ if not os.path.exists('static/notes'):
 
 @app.route('/')
 def DB_Status():
-    events = Events.query.all()
-    races = Races.query.all()
-    religions = Religions.query.all()
-    settlements = Settlements.query.all()
-    worlds = Worlds.query.all()
+    event = Event.query.all()
+    race = Race.query.all()
+    religion = Religion.query.all()
+    settlement = Settlement.query.all()
+    world = World.query.all()
 
     return render_template('db-status.html', 
-                           events=events, 
-                           races=races, 
-                           religions=religions, 
-                           settlements=settlements, 
-                           worlds=worlds)
+                           event=event, 
+                           race=race, 
+                           religion=religion, 
+                           settlement=settlement, 
+                           world=world)
 
 # Routes for creating, viewing, editing, and deleting entries
 # Put new templates in the respective folders located under 'templates/'
@@ -44,7 +44,7 @@ def DB_Status():
 # Events
 @app.route('/create-event', methods=['GET','POST'])
 def create_event():
-    return handle_create(Events,{
+    return handle_create(Event,{
         'name': 'name',
         'description': 'description',
         'date': 'date',
@@ -53,15 +53,15 @@ def create_event():
 
 @app.route('/delete-event/<int:event_id>', methods=['GET','POST'])
 def delete_event(event_id):
-    return handle_delete(Events, event_id)
+    return handle_delete(Event, event_id)
 
 @app.route('/view-event/<int:event_id>', methods=['GET','POST'])
 def view_event(event_id):
-    return handle_view(Events, event_id, 'view/view-event.html')
+    return handle_view(Event, event_id, 'view/view-event.html')
 
 @app.route('/edit-event/<int:event_id>', methods=['GET','POST'])
 def edit_event(event_id):
-    return handle_edit(Events, event_id, {
+    return handle_edit(Event, event_id, {
         'name': 'name',
         'description': 'description',
         'date': 'date',
@@ -72,7 +72,7 @@ def edit_event(event_id):
 # Races
 @app.route('/create-race', methods=['GET','POST'])
 def create_race():
-    return handle_create(Races, {
+    return handle_create(Race, {
         'name': 'name',
         'description': 'description',
         'traits': 'traits',
@@ -80,15 +80,15 @@ def create_race():
 
 @app.route('/delete-race/<int:race_id>', methods=['GET','POST'])
 def delete_race(race_id):
-    return handle_delete(Races, race_id)
+    return handle_delete(Race, race_id)
 
 @app.route('/view-race/<int:race_id>', methods=['GET','POST'])
 def view_race(race_id):
-    return handle_view(race_id, 'view/view-race.html')
+    return handle_view(Race, race_id, 'view/view-race.html')
 
 @app.route('/edit-race/<int:race_id>', methods=['GET','POST'])
 def edit_race(race_id):
-    return handle_edit(Races, race_id, {
+    return handle_edit(Race, race_id, {
         'name': 'name',
         'description': 'description',
         'traits': 'traits',
@@ -99,7 +99,7 @@ def edit_race(race_id):
 # Religions
 @app.route('/create-religion', methods=['GET','POST'])
 def create_religion():
-    return handle_create(Religions, {
+    return handle_create(Religion, {
         'name': 'name',
         'description': 'description',
         'beliefs': 'beliefs',
@@ -107,15 +107,15 @@ def create_religion():
 
 @app.route('/delete-religion/<int:religion_id>', methods=['GET','POST'])
 def delete_religion(religion_id):
-    return handle_delete(Religions, religion_id)
+    return handle_delete(Religion, religion_id)
 
 @app.route('/view-religion/<int:religion_id>', methods=['GET','POST'])
 def view_religion(religion_id):
-    return handle_view(Religions, religion_id, 'view/view-religion.html')
+    return handle_view(Religion, religion_id, 'view/view-religion.html')
 
 @app.route('/edit-religion/<int:religion_id>', methods=['GET','POST'])
 def edit_religion(religion_id):
-    return handle_edit(Religions, religion_id, {
+    return handle_edit(Religion, religion_id, {
         'name': 'name',
         'description': 'description',
         'beliefs': 'beliefs',
@@ -126,22 +126,22 @@ def edit_religion(religion_id):
 # Settlements
 @app.route('/create-settlement', methods=['GET','POST'])
 def create_settlement():
-    return handle_create(Settlements, {
+    return handle_create(Settlement, {
         'name': 'name',
         'description': 'description',
         'notes': 'notes'}, 'create/create-settlement.html', 'settlement')
 
 @app.route('/delete-settlement/<int:settlement_id>', methods=['GET','POST'])
 def delete_settlement(settlement_id):
-    return handle_delete(Settlements, settlement_id)
+    return handle_delete(Settlement, settlement_id)
 
 @app.route('/view-settlement/<int:settlement_id>', methods=['GET','POST'])
 def view_settlement(settlement_id):
-    return handle_view(Settlements, settlement_id, 'view/view-settlement.html')
+    return handle_view(Settlement, settlement_id, 'view/view-settlement.html')
 
 @app.route('/edit-settlement/<int:settlement_id>', methods=['GET','POST'])
 def edit_settlement(settlement_id):
-    return handle_edit(Settlements, settlement_id, {
+    return handle_edit(Settlement, settlement_id, {
         'name': 'name',
         'description': 'description',
         'notes': 'notes'
@@ -152,10 +152,10 @@ def edit_settlement(settlement_id):
 @app.route('/create-world', methods=['GET','POST'])
 def create_world():
     if request.method == 'POST':
-        world_name = request.form['world_name']
-        world_description = request.form.get('world_description', '')
-        world_notes = request.form.get('world_notes', '')
-        last_world_id = Worlds.query.order_by(Worlds.id.desc()).first()
+        world_name = request.form['name']
+        world_description = request.form.get('description', '')
+        world_notes = request.form.get('notes', '')
+        last_world_id = World.query.order_by(World.id.desc()).first()
         world_id = last_world_id.id + 1 if last_world_id else 1
         world_notes_file_name = str(world_id) + '-world-' + clean_filename(world_name) + '-notes.md'
         world_notes_link = f'static/notes/{world_notes_file_name}'
@@ -163,10 +163,10 @@ def create_world():
         if not world_name:
             return "World name is required", 400
         
-        if world_name in [w.name for w in Worlds.query.all()]:
+        if world_name in [w.name for w in World.query.all()]:
             return "World with this name already exists", 400
         else:
-            new_world = Worlds(name=world_name, 
+            new_world = World(name=world_name, 
                             description=world_description, 
                             notes=world_notes_link)
             db.session.add(new_world)
@@ -183,7 +183,7 @@ def create_world():
 
 @app.route('/delete-world/<int:world_id>', methods=['GET','POST'])
 def delete_world(world_id):
-    world = Worlds.query.get(world_id)
+    world = World.query.get(world_id)
 
     if world and world.notes:
         notes_file_path = os.path.join('static', world.notes)
@@ -197,7 +197,7 @@ def delete_world(world_id):
 
 @app.route('/view-world/<int:world_id>', methods=['GET','POST'])
 def view_world(world_id):
-    world = Worlds.query.get(world_id)
+    world = World.query.get(world_id)
 
     notes_content = ''
     if world and world.notes and os.path.exists(world.notes):
@@ -212,7 +212,7 @@ def view_world(world_id):
 
 @app.route('/edit-world/<int:world_id>', methods=['GET','POST'])
 def edit_world(world_id):
-    world = Worlds.query.get(world_id)
+    world = World.query.get(world_id)
 
     notes_content = ''
     if world and world.notes and os.path.exists(world.notes):
@@ -225,9 +225,9 @@ def edit_world(world_id):
         return "World not found", 404
 
     if request.method == 'POST':
-        world.name = request.form['world_name']
-        world.description = request.form.get('world_description', '')
-        world.notes = request.form.get('world_notes', '')
+        world.name = request.form['name']
+        world.description = request.form.get('description', '')
+        world.notes = request.form.get('notes', '')
         
         db.session.commit()
         return redirect(url_for('DB_Status'))
@@ -238,7 +238,7 @@ def edit_world(world_id):
 # Select World to reference in other entries
 @app.route('/select-world/<int:world_id>', methods=['GET','POST'])
 def select_world_id(world_id):
-    if not Worlds.query.get(world_id):
+    if not World.query.get(world_id):
         return "World not found", 404
     session['selected_world_id'] = world_id
     return redirect(url_for('DB_Status'))

@@ -12,20 +12,20 @@
     <a href="{{ url_for('create_event') }}">Create</a>
 
 
-    {% for event in events %}
+    {% for e in event %}
     <ul>
-        <li>{{ event.id }}</li>
-        <li>{{ event.world_id }}</li>
-        <li>{{ event.name }}</li>
-        <li>{{ event.description }}</li>
-        <li>{{ event.date }}</li>
-        <li>{{ event.notes }}</li>
-        <li>{{ event.created_at }}</li>
-        <li>{{ event.updated_at }}</li>
+        <li>{{ e.id }}</li>
+        <li>{{ e.world_id }}</li>
+        <li>{{ e.name }}</li>
+        <li>{{ e.description }}</li>
+        <li>{{ e.date }}</li>
+        <li>{{ e.notes }}</li>
+        <li>{{ e.created_at }}</li>
+        <li>{{ e.updated_at }}</li>
     </ul>
-    <a href="{{ url_for('view_event', event_id=event.id) }}">View</a>
-    <a href="{{ url_for('edit_event', event_id=event.id) }}">Edit</a>
-    <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
+    <a href="{{ url_for('view_event', event_id=e.id) }}">View</a>
+    <a href="{{ url_for('edit_event', event_id=e.id) }}">Edit</a>
+    <form action="{{ url_for('delete_event', event_id=e.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
     {% endfor %}
@@ -34,20 +34,20 @@
     <h2>Races</h2>
     <a href="{{ url_for('create_race') }}">Create</a>
 
-    {% for race in races %}
+    {% for r in race %}
     <ul>
-        <li>{{ race.id }}</li>
-        <li>{{ race.world_id }}</li>
-        <li>{{ race.name }}</li>
-        <li>{{ race.description }}</li>
-        <li>{{ race.traits }}</li>
-        <li>{{ race.notes }}</li>
-        <li>{{ race.created_at }}</li>
-        <li>{{ race.updated_at }}</li>
+        <li>{{ r.id }}</li>
+        <li>{{ r.world_id }}</li>
+        <li>{{ r.name }}</li>
+        <li>{{ r.description }}</li>
+        <li>{{ r.traits }}</li>
+        <li>{{ r.notes }}</li>
+        <li>{{ r.created_at }}</li>
+        <li>{{ r.updated_at }}</li>
     </ul>
-    <a href="{{ url_for('view_race', race_id=race.id) }}">View</a>
-    <a href="{{ url_for('edit_race', race_id=race.id) }}">Edit</a>
-    <form action="{{ url_for('delete_race', race_id=race.id)}}" method="POST">
+    <a href="{{ url_for('view_race', race_id=r.id) }}">View</a>
+    <a href="{{ url_for('edit_race', race_id=r.id) }}">Edit</a>
+    <form action="{{ url_for('delete_race', race_id=r.id)}}" method="POST">
         <button type="submit">Delete</button>
     </form>
     {% endfor %}
@@ -55,20 +55,20 @@
     <h2>Religions</h2>
     <a href="{{ url_for('create_religion') }}">Create</a>
 
-    {% for religion in religions %}
+    {% for r in religion %}
     <ul>
-        <li>{{ religion.id }}</li>
-        <li>{{ religion.world_id }}</li>
-        <li>{{ religion.name }}</li>
-        <li>{{ religion.description }}</li>
-        <li>{{ religion.beliefs }}</li>
-        <li>{{ religion.notes }}</li>
-        <li>{{ religion.created_at }}</li>
-        <li>{{ religion.updated_at }}</li>
+        <li>{{ r.id }}</li>
+        <li>{{ r.world_id }}</li>
+        <li>{{ r.name }}</li>
+        <li>{{ r.description }}</li>
+        <li>{{ r.beliefs }}</li>
+        <li>{{ r.notes }}</li>
+        <li>{{ r.created_at }}</li>
+        <li>{{ r.updated_at }}</li>
     </ul>
-    <a href="{{ url_for('view_religion', religion_id=religion.id) }}">View</a>
-    <a href="{{ url_for('edit_religion', religion_id=religion.id) }}">Edit</a>
-    <form action="{{ url_for('delete_religion', religion_id=religion.id) }}" method="POST">
+    <a href="{{ url_for('view_religion', religion_id=r.id) }}">View</a>
+    <a href="{{ url_for('edit_religion', religion_id=r.id) }}">Edit</a>
+    <form action="{{ url_for('delete_religion', religion_id=r.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
     {% endfor %}
@@ -77,19 +77,19 @@
     <h2>Settlements</h2>
     <a href="{{ url_for('create_settlement') }}">Create</a>
 
-    {% for settlement in settlements %}
+    {% for s in settlement %}
     <ul>
-        <li>{{ settlement.id }}</li>
-        <li>{{ settlement.world_id }}</li>
-        <li>{{ settlement.name }}</li>
-        <li>{{ settlement.description }}</li>
-        <li>{{ settlement.notes }}</li>
-        <li>{{ settlement.created_at }}</li>
-        <li>{{ settlement.updated_at }}</li>
+        <li>{{ s.id }}</li>
+        <li>{{ s.world_id }}</li>
+        <li>{{ s.name }}</li>
+        <li>{{ s.description }}</li>
+        <li>{{ s.notes }}</li>
+        <li>{{ s.created_at }}</li>
+        <li>{{ s.updated_at }}</li>
     </ul>
-    <a href="{{ url_for('view_settlement', settlement_id=settlement.id) }}">View</a>
-    <a href="{{ url_for('edit_settlement', settlement_id=settlement.id) }}">Edit</a>
-    <form action="{{ url_for('delete_settlement', settlement_id=settlement.id) }}" method="POST">
+    <a href="{{ url_for('view_settlement', settlement_id=s.id) }}">View</a>
+    <a href="{{ url_for('edit_settlement', settlement_id=s.id) }}">Edit</a>
+    <form action="{{ url_for('delete_settlement', settlement_id=s.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
     {% endfor %}
@@ -107,22 +107,22 @@
         <p>No world selected.</p>
     {% endif %}
 
-    {% for world in worlds %}
+    {% for w in world %}
     <ul>
-        <li>{{ world.id }}</li>
-        <li>{{ world.name }}</li>
-        <li>{{ world.description }}</li>
-        <li>{{ world.notes }}</li>
-        <li>{{ world.created_at }}</li>
-        <li>{{ world.updated_at }}</li>
+        <li>{{ w.id }}</li>
+        <li>{{ w.name }}</li>
+        <li>{{ w.description }}</li>
+        <li>{{ w.notes }}</li>
+        <li>{{ w.created_at }}</li>
+        <li>{{ w.updated_at }}</li>
     </ul>
-    <a href="{{ url_for('view_world', world_id=world.id) }}">View</a>
-    <a href="{{ url_for('edit_world', world_id=world.id) }}">Edit</a>
-    <form action="{{ url_for('delete_world', world_id=world.id) }}" method="POST">
+    <a href="{{ url_for('view_world', world_id=w.id) }}">View</a>
+    <a href="{{ url_for('edit_world', world_id=w.id) }}">Edit</a>
+    <form action="{{ url_for('delete_world', world_id=w.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
-    <form action="{{ url_for('select_world_id', world_id=world.id) }}" method="POST" style="display:inline;">
-        <button type="submit">Select {{ world.name }}</button>
+    <form action="{{ url_for('select_world_id', world_id=w.id) }}" method="POST" style="display:inline;">
+        <button type="submit">Select {{ w.name }}</button>
     {% endfor %}
 
 

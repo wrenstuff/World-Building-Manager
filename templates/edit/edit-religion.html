@@ -1,31 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_form_edit.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Religion</title>
-</head>
+{% block form_fields %}
+    <label for="name">Religion Name</label>
+    <input type="text" id="name" name="name" value="{{ religion.name }}" required>
 
-<body>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required>{{ religion.description }}</textarea>
 
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h2>Edit Religion</h2>
-        <form action="{{ url_for('edit_religion', religion_id=religion.id) }}" method="POST">
-            <label for="religion_name">Religion Name</label>
-            <input type="text" id="religion_name" name="religion_name" value="{{ religion.name }}" required>
-            <label for="religion_description">Description</label>
-            <textarea id="religion_description" name="religion_description"
-                required>{{ religion.description }}</textarea>
-            <label for="religion_beliefs">Beliefs</label>
-            <textarea id="religion_beliefs" name="religion_beliefs">{{ religion.beliefs }}</textarea>
-            <label for="religion_notes">Notes</label>
-            <textarea id="religion_notes" name="religion_notes">{{ notes_content }}</textarea>
-            <button type="submit">Edit Religion</button>
-        </form>
-    </div>
+    <label for="beliefs">Beliefs</label>
+    <textarea id="beliefs" name="beliefs">{{ religion.beliefs }}</textarea>
 
-</body>
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes">{{ notes_content }}</textarea>
+{% endblock %}
 
-</html>
+{% set title = "Edit Religion" %}
+{% set heading = "Edit Religion Details" %}
+{% set action_url = url_for('edit_religion', religion_id=religion.id) %}
+{% set button_text = "Save Changes" %}
