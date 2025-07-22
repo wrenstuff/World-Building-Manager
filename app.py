@@ -179,7 +179,7 @@ def create_world():
                 notes_file.write(world_notes)
 
             return redirect(url_for('DB_Status'))
-    return render_template('create/create-world.html')
+    return render_template('create/create-world.html', include_world_id=False)
 
 @app.route('/delete-world/<int:world_id>', methods=['GET','POST'])
 def delete_world(world_id):

@@ -42,7 +42,7 @@ def handle_create(model, fields, template_path, file_prefix):
         db.session.commit()
         return redirect(url_for('DB_Status'))
     
-    return render_template(template_path)
+    return render_template(template_path, include_world_id=True)
 
 
 def handle_view(model, id, template_path):
