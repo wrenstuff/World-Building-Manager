@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_view.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Race</title>
-</head>
+{% block content %}
+<p>Description: {{ race.description }}</p>
+<p>Race: {{ race.traits }}</p>
+{% endblock %}
 
-<body>
+{% block actions %}
+<a href="{{ url_for('edit_race', race_id=race.id) }}">Edit Race</a>
+<form action="{{ url_for('delete_race', race_id=race.id) }}" method="POST" style="display:inline;">
+    <button type="submit">Delete Race</button>
+</form>
+{% endblock %}
 
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h1>{{ race.name }}</h1>
-        <p>Description: {{ race.description }}</p>
-        <p>Race: {{ race.traits }}</p>
-        <p>Notes: {{ notes_content }}</p>
-        <p>Created At: {{ race.created_at }}</p>
-        <p>Updated At: {{ race.updated_at }}</p>
-    </div>
-
-    <div class="actions">
-        <a href="{{ url_for('edit_race', race_id=race.id) }}">Edit Race</a>
-        <form action="{{ url_for('delete_race', race_id=race.id) }}" method="POST" style="display:inline;">
-            <button type="submit">Delete Race</button>
-        </form>
-    </div>
-</body>
-
-</html>
+{% set title = "View Race" %}
+{% block name %}{{ race.name }}{% endblock %}
+{% set item = race %}

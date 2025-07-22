@@ -1,35 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_form_create.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Settlement</title>
-</head>
+{% block form_fields %}
+    <label for="name">Settlement Name</label>
+    <input type="text" id="name" name="name" required>
 
-<body>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required></textarea>
 
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h2>Create new settlement</h2>
-        <form action="{{ url_for('create_settlement') }}" method="POST">
-            {% if session.get('selected_world_id') %}
-                <label for="world_id" hidden>World ID</label>
-                <input type="text" id="world_id" name="world_id" value="{{ session['selected_world_id'] }}" required hidden>
-            {% else %}
-                <label for="world_id">World ID</label>
-                <input type="text" id="world_id" name="world_id" required>
-            {% endif %}
-            <label for="settlement_name">Settlement Name</label>
-            <input type="text" id="world_name" name="settlement_name" required>
-            <label for="settlement_description">Description</label>
-            <textarea id="settlement_description" name="settlement_description" required></textarea>
-            <label for="settlement_notes">Notes</label>
-            <textarea id="settlement_notes" name="settlement_notes"></textarea>
-            <button type="submit">Create Settlement</button>
-        </form>
-    </div>
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes"></textarea>
+{% endblock %}
 
-</body>
-
-</html>
+{% set title = "Create Settlement" %}
+{% set heading = "Create new settlement" %}
+{% set action_url = url_for('create_settlement') %}
+{% set button_text = "Create Settlement" %}

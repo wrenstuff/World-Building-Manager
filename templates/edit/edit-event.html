@@ -1,30 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_form_edit.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Event</title>
-</head>
+{% block form_fields %}
+    <label for="name">Event Name</label>
+    <input type="text" id="name" name="name" value="{{ event.name }}" required>
 
-<body>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required>{{ event.description }}</textarea>
 
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h2>Edit Event</h2>
-        <form action="{{ url_for('edit_event', event_id=event.id) }}" method="POST">
-            <label for="religion_name">Religion Name</label>
-            <input type="text" id="event_name" name="event_name" value="{{ event.name }}" required>
-            <label for="event_description">Description</label>
-            <textarea id="event_description" name="event_description" required>{{ event.description }}</textarea>
-            <label for="event_beliefs">Time</label>
-            <textarea id="event_beliefs" name="event_beliefs">{{ event.beliefs }}</textarea>
-            <label for="event_notes">Notes</label>
-            <textarea id="event_notes" name="event_notes">{{ notes_content }}</textarea>
-            <button type="submit">Edit Event</button>
-        </form>
-    </div>
+    <label for="date">Date</label>
+    <textarea id="date" name="date">{{ event.date }}</textarea>
 
-</body>
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes">{{ notes_content }}</textarea>
+{% endblock %}
 
-</html>
+{% set title = "Edit Event" %}
+{% set heading = "Edit event" %}
+{% set action_url = url_for('edit_event', event_id=event.id) %}
+{% set button_text = "Edit Event" %}

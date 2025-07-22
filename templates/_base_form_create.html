@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    <a href="{{ url_for('DB_Status') }}">Back</a>
+    <div class="form-container">
+        <h2>{{ heading }}</h2>
+        <form action="{{ action_url }}" method="POST">
+            {% if include_world_id %}
+                {% if session.get('selected_world_id')  %}
+                    <label for="world_id" hidden>World ID</label>
+                    <input type="text" id="world_id" name="world_id" value="{{ session['selected_world_id'] }}" required hidden>
+                {% else %}
+                    <label for="world_id">World ID</label>
+                    <input type="text" id="world_id" name="world_id" required>
+                {% endif %}
+            {% endif %}
+
+            {% block form_fields %}{% endblock %}
+
+            <button type="submit">{{ button_text }}</button>
+        </form>
+    </div>
+
+</body>
+</html>

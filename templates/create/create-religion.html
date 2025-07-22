@@ -1,37 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "_base_form_create.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Religion</title>
-</head>
+{% block form_fields %}
+    <label for="name">Religion Name</label>
+    <input type="text" id="name" name="name" required>
 
-<body>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required></textarea>
 
-    <a href="{{ url_for('DB_Status') }}">Back</a>
-    <div class="form-container">
-        <h2>Create new religion</h2>
-        <form action="{{ url_for('create_religion') }}" method="POST">
-            {% if session.get('selected_world_id') %}
-                <label for="world_id" hidden>World ID</label>
-                <input type="text" id="world_id" name="world_id" value="{{ session['selected_world_id'] }}" required hidden>
-            {% else %}
-                <label for="world_id">World ID</label>
-                <input type="text" id="world_id" name="world_id" required>
-            {% endif %}
-            <label for="religion_name">Religion Name</label>
-            <input type="text" id="world_name" name="religion_name" required>
-            <label for="religion_description">Description</label>
-            <textarea id="religion_description" name="religion_description" required></textarea>
-            <label for="religion_beliefs">Beliefs</label>
-            <textarea name="religion_beliefs" id="religion_beliefs"></textarea>
-            <label for="religion_notes">Notes</label>
-            <textarea id="religion_notes" name="religion_notes"></textarea>
-            <button type="submit">Create Religion</button>
-        </form>
-    </div>
+    <label for="beliefs">Beliefs</label>
+    <textarea id="beliefs" name="beliefs"></textarea>
 
-</body>
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes"></textarea>
+{% endblock %}
 
-</html>
+{% set title = "Create Religion" %}
+{% set heading = "Create new religion" %}
+{% set action_url = url_for('create_religion') %}
+{% set button_text = "Create Religion" %}
