@@ -1,17 +1,19 @@
 from models import db
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_migrate import Migrate
+from sqlalchemy.orm import joinedload
 import os
 
 from helpers import handle_create, handle_view, handle_delete, handle_edit
 from utils import clean_filename
 
 from models import Event
-from models import Race
-from models import Religion
-from models import Settlement
+from models import Race, Religion
+from models import Settlement, Subrace
 from models import World
 
 app = Flask(__name__)
+migrate = Migrate(app, db)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.secret_key = 'secret_key'
 
@@ -28,6 +30,7 @@ def DB_Status():
     race = Race.query.all()
     religion = Religion.query.all()
     settlement = Settlement.query.all()
+    subrace = Subrace.query.options(joinedload(Subrace.race)).all()
     world = World.query.all()
 
     return render_template('db-status.html', 
@@ -35,7 +38,13 @@ def DB_Status():
                            race=race, 
                            religion=religion, 
                            settlement=settlement, 
+                           subrace=subrace,
                            world=world)
+
+# Error Routes
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 # Routes for creating, viewing, editing, and deleting entries
 # Put new templates in the respective folders located under 'templates/'
@@ -84,6 +93,7 @@ def delete_race(race_id):
 
 @app.route('/view-race/<int:race_id>', methods=['GET','POST'])
 def view_race(race_id):
+    
     return handle_view(Race, race_id, 'view/view-race.html')
 
 @app.route('/edit-race/<int:race_id>', methods=['GET','POST'])
@@ -146,6 +156,39 @@ def edit_settlement(settlement_id):
         'description': 'description',
         'notes': 'notes'
     }, 'edit/edit-settlement.html')
+
+
+# Subraces
+@app.route('/create-subrace', methods=['GET','POST'])
+def create_subrace():
+    race = Race.query.all()
+    return handle_create(Subrace, {
+        'name': 'name',
+        'description': 'description',
+        'traits': 'traits',
+        'notes': 'notes',
+        'race_id': 'race_id'
+    }, 'create/create-subrace.html', 'subrace', extra_context={'race': race})
+
+@app.route('/delete-subrace/<int:subrace_id>', methods=['GET','POST'])
+def delete_subrace(subrace_id):
+    return handle_delete(Subrace, subrace_id)
+
+@app.route('/view-subrace/<int:subrace_id>', methods=['GET','POST'])
+def view_subrace(subrace_id):
+    # get the related race to display its traits and notes
+    race = Subrace.query.options(joinedload(Subrace.race)).get(subrace_id)
+    
+    return handle_view(Subrace, subrace_id, 'view/view-subrace.html', related_attr='race')
+
+@app.route('/edit-subrace/<int:subrace_id>', methods=['GET','POST'])
+def edit_subrace(subrace_id):
+    return handle_edit(Subrace, subrace_id, {
+        'name': 'name',
+        'description': 'description',
+        'traits': 'traits',
+        'notes': 'notes'
+    }, 'edit/edit-subrace.html')
 
 
 # Worlds
@@ -243,6 +286,7 @@ def select_world_id(world_id):
     session['selected_world_id'] = world_id
     return redirect(url_for('DB_Status'))
 
+# Clear selected world
 @app.route('/clear-selected-world', methods=['GET','POST'])
 def clear_selected_world():
     session.pop('selected_world_id', None)

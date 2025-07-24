@@ -2,7 +2,9 @@
 
 {% block content %}
 <p>Description: {{ race.description }}</p>
-<p>Race: {{ race.traits }}</p>
+<p>Traits: {{ race.traits }}</p>
+<p>Has Subrace: {{ race.has_subrace }}</p>
+<p>Notes: {{ notes_content }}</p>
 {% endblock %}
 
 {% block actions %}

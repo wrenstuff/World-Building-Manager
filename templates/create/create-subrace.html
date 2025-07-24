@@ -1,0 +1,27 @@
+{% extends "_base_form_create.html" %}
+
+{% block form_fields %}
+    <label for="name">Subrace Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="race_id">Choose Race</label>
+    <select name="race_id" id="race_id" required>
+        {% for r in race %}
+            <option value="{{ r.id }}">{{ r.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required></textarea>
+
+    <label for="traits">Traits</label>
+    <textarea id="traits" name="traits"></textarea>
+
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes"></textarea>
+{% endblock %}
+
+{% set title = "Create Subrace" %}
+{% set heading = "Create new subrace" %}
+{% set action_url = url_for('create_subrace') %}
+{% set button_text = "Create Subrace" %}

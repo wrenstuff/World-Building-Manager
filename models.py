@@ -4,12 +4,9 @@ from datetime import datetime, timezone
 db = SQLAlchemy()
 
 # this is where all of the models are defined for the World Building Manager app
-# Uncomment the following lines to define your models
 # Add more comments when there's something else that could be added
 # Sort the models alphabetically by their names
 
-# characters
-# creatures
 # events
 class Event(db.Model):
     __tablename__ = 'event'
@@ -27,7 +24,6 @@ class Event(db.Model):
 # languages
 # locations
 # nations
-# notes
 # people
 # races
 class Race(db.Model):
@@ -38,8 +34,11 @@ class Race(db.Model):
     description = db.Column(db.Text)
     traits = db.Column(db.Text)
     notes = db.Column(db.Text)
+    has_subrace = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+    subraces = db.relationship('Subrace', back_populates='race')
 
 # religions
 class Religion(db.Model):
@@ -63,6 +62,21 @@ class Settlement(db.Model):
     notes = db.Column(db.Text)
     created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+# subraces
+class Subrace(db.Model):
+    __tablename__ = 'subrace'
+    id = db.Column(db.Integer, primary_key=True)
+    world_id = db.Column(db.Integer, db.ForeignKey('world.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    traits = db.Column(db.Text)
+    notes = db.Column(db.Text)
+    race_id = db.Column(db.Integer, db.ForeignKey('race.id'), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+    race = db.relationship('Race', back_populates='subraces')
 
 # timelines
 # worlds

@@ -1,9 +1,14 @@
 import os
 from flask import render_template, redirect, url_for, request
 from models import db
-from utils import clean_filename
+from utils import clean_filename, get_notes_content
 
-def handle_create(model, fields, template_path, file_prefix):
+def handle_create(model, fields, template_path, file_prefix, extra_context=None):
+    
+    context = {'fields': fields}
+    if extra_context:
+        context.update(extra_context)
+        
     if request.method == 'POST':
         world_id = request.form.get('world_id')
         name = request.form.get(fields['name'])
@@ -29,7 +34,7 @@ def handle_create(model, fields, template_path, file_prefix):
         }
 
         optional_fields = [
-            'date', 'traits', 'beliefs'
+            'date', 'traits', 'beliefs', 'race_id'
         ]
 
         for f in optional_fields:
@@ -42,22 +47,36 @@ def handle_create(model, fields, template_path, file_prefix):
         db.session.commit()
         return redirect(url_for('DB_Status'))
     
-    return render_template(template_path, include_world_id=True)
+    return render_template(template_path, include_world_id=True, **context)
 
 
-def handle_view(model, id, template_path):
+def handle_view(model, id, template_path, related_attr=None):
     item = model.query.get(id)
     if not item:
         return f"{model.__name__} not found.", 404
     
-    notes_content = ''
+    # handle main notes
     if item.notes and os.path.exists(item.notes):
         with open(item.notes, 'r', encoding='utf-8') as notes_file:
             notes_content = notes_file.read()
     else:
         notes_content = 'No notes available.'
-
-    return render_template(template_path, **{model.__name__.lower(): item, 'notes_content': notes_content})
+        
+    # handle related model and notes
+    related = getattr(item, related_attr) if related_attr else None
+    if related and related.notes and os.path.exists(related.notes):
+        with open(related.notes, 'r', encoding='utf-8') as related_notes_file:
+            related_notes_content = related_notes_file.read()
+    else:
+        related_notes_content = 'No related notes available.'
+        
+    return render_template(template_path,
+                           **{
+                                 model.__name__.lower(): item,
+                                 'notes_content': notes_content,
+                                 'related': related,
+                                 'related_notes_content': related_notes_content
+                           })
 
 
 def handle_delete(model, id):
