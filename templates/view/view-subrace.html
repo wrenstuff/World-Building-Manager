@@ -1,0 +1,22 @@
+{% extends "_base_view.html" %}
+
+{% block content %}
+<p>Subrace of: {{ related.name }}</p>
+<p>Description: {{ subrace.description }}</p>
+<p>Race Traits: {{ related.traits }}</p>
+<p>Subrace Traits: {{ subrace.traits }}</p>
+<p>Race Notes: {{ related.notes_content }}</p>
+<p>Subrace Notes: {{ subrace.notes_content }}</p>
+
+{% endblock %}
+
+{% block actions %}
+<a href="{{ url_for('edit_subrace', subrace_id=subrace.id) }}">Edit</a>
+<form action="{{ url_for('delete_subrace', subrace_id=subrace.id) }}" method="POST" style="display:inline;">
+    <button type="submit">Delete</button>
+</form>
+{% endblock %}
+
+{% set title = "View Subrace" %}
+{% block name %}{{ subrace.name }}{% endblock %}
+{% set item = subrace %}

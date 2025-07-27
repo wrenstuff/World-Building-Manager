@@ -1,0 +1,24 @@
+{% extends "_base_form_create.html" %}
+
+{% block form_fields %}
+    <p>Subrace of: {{ parent.name }}</p>
+    <p>Parent race traits: {{ parent.traits }}</p>
+    <p>Parent race notes: {{ parent.notes_content }}</p>
+
+    <label for="name">Subrace Name</label>
+    <input type="text" id="name" name="name" value="{{ subrace.name }}" required>
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" required>{{ subrace.description }}</textarea>
+
+    <label for="traits">Traits</label>
+    <textarea id="traits" name="traits">{{ subrace.traits }}</textarea>
+
+    <label for="notes">Notes</label>
+    <textarea id="notes" name="notes">{{ subrace.notes_content }}</textarea>
+{% endblock %}
+
+{% set title = "Edit Subrace" %}
+{% set heading = "Edit subrace" %}
+{% set action_url = url_for('edit_subrace', subrace_id=subrace.id) %}
+{% set button_text = "Edit Subrace" %}

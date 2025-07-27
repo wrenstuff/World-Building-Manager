@@ -42,6 +42,7 @@
         <li>{{ r.description }}</li>
         <li>{{ r.traits }}</li>
         <li>{{ r.notes }}</li>
+        <li>{{ r.has_subrace }}</li>
         <li>{{ r.created_at }}</li>
         <li>{{ r.updated_at }}</li>
     </ul>
@@ -90,6 +91,32 @@
     <a href="{{ url_for('view_settlement', settlement_id=s.id) }}">View</a>
     <a href="{{ url_for('edit_settlement', settlement_id=s.id) }}">Edit</a>
     <form action="{{ url_for('delete_settlement', settlement_id=s.id) }}" method="POST">
+        <button type="submit">Delete</button>
+    </form>
+    {% endfor %}
+
+
+    <h2>Subrace</h2>
+    <a href="{{ url_for('create_subrace') }}">Create</a>
+
+    {% for s in subrace %}
+    <ul>
+        <li>{{ s.id }}</li>
+        <li>{{ s.world_id }}</li>
+        <li>{{ s.name }}</li>
+        <li>{{ s.race.name }}</li>
+        <li>{{ s.description }}</li>
+        <li>{{ s.race.description }}</li>
+        <li>{{ s.traits }}</li>
+        <li>{{ s.race.traits }}</li>
+        <li>{{ s.notes }}</li>
+        <li>{{ s.race.notes }}</li>
+        <li>{{ s.created_at }}</li>
+        <li>{{ s.updated_at }}</li>
+    </ul>
+    <a href="{{ url_for('view_subrace', subrace_id=s.id) }}">View</a>
+    <a href="{{ url_for('edit_subrace', subrace_id=s.id) }}">Edit</a>
+    <form action="{{ url_for('delete_subrace', subrace_id=s.id) }}" method="POST">
         <button type="submit">Delete</button>
     </form>
     {% endfor %}

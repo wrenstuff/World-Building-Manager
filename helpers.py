@@ -3,7 +3,12 @@ from flask import render_template, redirect, url_for, request
 from models import db
 from utils import clean_filename
 
-def handle_create(model, fields, template_path, file_prefix):
+def handle_create(model, fields, template_path, file_prefix, extra_context=None):
+    
+    context = {'fields': fields}
+    if extra_context:
+        context.update(extra_context)
+        
     if request.method == 'POST':
         world_id = request.form.get('world_id')
         name = request.form.get(fields['name'])
@@ -29,7 +34,7 @@ def handle_create(model, fields, template_path, file_prefix):
         }
 
         optional_fields = [
-            'date', 'traits', 'beliefs'
+            'date', 'traits', 'beliefs', 'race_id'
         ]
 
         for f in optional_fields:
@@ -42,22 +47,22 @@ def handle_create(model, fields, template_path, file_prefix):
         db.session.commit()
         return redirect(url_for('DB_Status'))
     
-    return render_template(template_path, include_world_id=True)
+    return render_template(template_path, include_world_id=True, **context)
 
 
-def handle_view(model, id, template_path):
+def handle_view(model, id, template_path, related_attr=None):
+    
     item = model.query.get(id)
     if not item:
         return f"{model.__name__} not found.", 404
-    
-    notes_content = ''
-    if item.notes and os.path.exists(item.notes):
-        with open(item.notes, 'r', encoding='utf-8') as notes_file:
-            notes_content = notes_file.read()
-    else:
-        notes_content = 'No notes available.'
-
-    return render_template(template_path, **{model.__name__.lower(): item, 'notes_content': notes_content})
+        
+    related = getattr(item, related_attr) if related_attr else None
+        
+    return render_template(template_path,
+                           **{
+                                 model.__name__.lower(): item,
+                                 'related': related,
+                           })
 
 
 def handle_delete(model, id):
@@ -74,16 +79,39 @@ def handle_edit(model, id, fields, template_path):
     item = model.query.get(id)
     if not item:
         return f"{model.__name__} not found.", 404
-    
-    notes_content = ''
-    if item.notes and os.path.exists(item.notes):
-        with open(item.notes, 'r', encoding='utf-8') as notes_file:
-            notes_content = notes_file.read()
-    
+
     if request.method == 'POST':
         for key in fields:
-            setattr(item, fields[key], request.form.get(fields[key], ''))
+            if key == 'parent':
+                continue
+            elif key == 'notes':
+                notes_text = request.form.get(fields[key], '')
+                notes_path = getattr(item, fields[key], '')
+                if notes_path:
+                    with open(notes_path, 'w', encoding='utf-8') as f:
+                        f.write(notes_text)
+            else:
+                setattr(item, fields[key], request.form.get(fields[key], ''))
+        
         db.session.commit()
         return redirect(url_for('DB_Status'))
-    
-    return render_template(template_path, **{model.__name__.lower(): item, 'notes_content': notes_content})
+
+    context = {
+        model.__name__.lower(): item,
+    }
+
+    for key in fields:
+        if key == 'notes':
+            notes_path = getattr(item, fields[key], '')
+            if os.path.exists(notes_path):
+                with open(notes_path, 'r', encoding='utf-8') as f:
+                    context[key] = f.read()
+            else:
+                context[key] = ''
+        elif key != 'parent':
+            context[key] = getattr(item, fields[key], '')
+            
+    if 'parent' in fields:
+        context['parent'] = getattr(item, fields['parent'], None)
+        
+    return render_template(template_path, **context)
