@@ -161,33 +161,55 @@ def edit_settlement(settlement_id):
 # Subraces
 @app.route('/create-subrace', methods=['GET','POST'])
 def create_subrace():
-    race = Race.query.all()
+    races = Race.query.all()
+    
+    if request.method == 'POST':
+        race_id = request.form.get('race_id')
+        race = Race.query.get(race_id)
+        
+        if race and not race.has_subrace:
+            race.has_subrace = True
+            db.session.commit()
+    
     return handle_create(Subrace, {
         'name': 'name',
         'description': 'description',
         'traits': 'traits',
         'notes': 'notes',
         'race_id': 'race_id'
-    }, 'create/create-subrace.html', 'subrace', extra_context={'race': race})
+    }, 'create/create-subrace.html', 'subrace', extra_context={'race': races})
 
 @app.route('/delete-subrace/<int:subrace_id>', methods=['GET','POST'])
 def delete_subrace(subrace_id):
-    return handle_delete(Subrace, subrace_id)
+    subrace = Subrace.query.get_or_404(subrace_id)
+    race_id = subrace.race_id
+    
+    result = handle_delete(Subrace, subrace_id)
+    
+    remaining_subraces = Subrace.query.filter_by(race_id=race_id).count()
+    if remaining_subraces == 0:
+        race = Race.query.get(race_id)
+        if race:
+            race.has_subrace = False
+            db.session.commit()
+            
+    return result
 
 @app.route('/view-subrace/<int:subrace_id>', methods=['GET','POST'])
 def view_subrace(subrace_id):
-    # get the related race to display its traits and notes
-    race = Subrace.query.options(joinedload(Subrace.race)).get(subrace_id)
-    
     return handle_view(Subrace, subrace_id, 'view/view-subrace.html', related_attr='race')
 
 @app.route('/edit-subrace/<int:subrace_id>', methods=['GET','POST'])
 def edit_subrace(subrace_id):
+    
+    subrace = Subrace.query.get_or_404(subrace_id)
+    
     return handle_edit(Subrace, subrace_id, {
         'name': 'name',
         'description': 'description',
         'traits': 'traits',
-        'notes': 'notes'
+        'notes': 'notes',
+        'parent': 'race'
     }, 'edit/edit-subrace.html')
 
 

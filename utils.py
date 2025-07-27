@@ -7,8 +7,8 @@ def clean_filename(filename):
         return 'unnamed'
     return re.sub(r'[^a-zA-Z0-9_\-]', '_', filename)
 
-def get_notes_content(notes_path):
-    if notes_path and os.path.exists(notes_path):
-        with open(notes_path, 'r', encoding='utf-8') as f:
-            return f.read()
-    return 'No notes available.'
+# def get_notes_content(notes_path):
+#     if notes_path and os.path.exists(notes_path):
+#         with open(notes_path, 'r', encoding='utf-8') as f:
+#             return f.read()
+#     return 'No notes available.'
